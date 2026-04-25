@@ -1,16 +1,21 @@
 .header {
-  position: sticky;
+  position: fixed;
   top: 0;
   width: 100%;
-  background: #0f172a; // azul escuro
-  color: #e2e8f0;
-  border-bottom: 1px solid #1e293b;
+  height: 80px;
   z-index: 1000;
+  position: relative;
+
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  overflow: hidden;
 
   .container {
     max-width: 1100px;
     margin: 0 auto;
-    padding: 1rem 2rem;
+    padding: 2rem 2rem;
+    max-height: 80px;
 
     display: flex;
     justify-content: space-between;
@@ -30,7 +35,7 @@
     a {
       text-decoration: none;
       color: #cbd5f5;
-      font-size: 0.95rem;
+      font-size: 1.2rem;
       transition: 0.3s;
 
       &:hover {
@@ -38,4 +43,17 @@
       }
     }
   }
+}
+
+.header::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  /* Use 1px e controle a "finura" pela opacidade, é mais seguro para navegadores */
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #38bdf8, #22c55e, transparent);
+  opacity: 0.4;
+  z-index: 1001;
 }

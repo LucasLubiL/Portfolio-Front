@@ -1,22 +1,31 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, OnInit } from '@angular/core';
 
-import { Home } from './home';
+@Component({
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
+})
+export class HomeComponent implements OnInit {
 
-describe('Home', () => {
-  let component: Home;
-  let fixture: ComponentFixture<Home>;
+  constructor() { }
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [Home],
-    }).compileComponents();
+  ngOnInit(): void {
+    // Smooth scroll para os links
+    this.setupSmoothScroll();
+  }
 
-    fixture = TestBed.createComponent(Home);
-    component = fixture.componentInstance;
-    await fixture.whenStable();
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  private setupSmoothScroll(): void {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(anchor.getAttribute('href')!);
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+  }
+}
