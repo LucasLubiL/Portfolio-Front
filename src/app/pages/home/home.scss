@@ -232,6 +232,7 @@ $accent-hover: rgba(56, 189, 248, 0.2);
   .tech-title {
     font-size: 2.5rem;
     margin-bottom: 2rem;
+    margin-top: 4rem;
     @include gradient-text;
     position: relative;
     display: inline-block;
@@ -396,7 +397,7 @@ $accent-hover: rgba(56, 189, 248, 0.2);
 .projects {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 5rem 2rem;
+  padding: 0rem 2rem;
   background: $dark-bg;
   color: $text-primary;
   animation: fadeInUp 0.6s ease-out;
@@ -613,6 +614,9 @@ $accent-hover: rgba(56, 189, 248, 0.2);
       border-radius: 20px;
       overflow: hidden;
       transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
 
       &:hover {
         transform: translateY(-5px);
@@ -625,6 +629,7 @@ $accent-hover: rgba(56, 189, 248, 0.2);
         height: 200px;
         overflow: hidden;
         background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(34, 197, 94, 0.1));
+        flex-shrink: 0;
 
         .card-img {
           width: 100%;
@@ -640,6 +645,9 @@ $accent-hover: rgba(56, 189, 248, 0.2);
 
       .card-content {
         padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
 
         h3 {
           font-size: 1.3rem;
@@ -658,7 +666,7 @@ $accent-hover: rgba(56, 189, 248, 0.2);
           display: flex;
           flex-wrap: wrap;
           gap: 0.5rem;
-          margin-bottom: 1.2rem;
+          margin-bottom: 1.5rem;
 
           .card-tech {
             background: rgba(56, 189, 248, 0.12);
@@ -679,11 +687,14 @@ $accent-hover: rgba(56, 189, 248, 0.2);
 
         .project-links {
           display: flex;
+          justify-content: center;
           gap: 1rem;
+          margin-top: auto;
 
           .project-link {
             display: inline-flex;
             align-items: center;
+            justify-content: center;
             gap: 0.5rem;
             padding: 0.7rem 1.5rem;
             border-radius: 10px;
@@ -694,6 +705,7 @@ $accent-hover: rgba(56, 189, 248, 0.2);
             border: 1px solid rgba(56, 189, 248, 0.5);
             background: transparent;
             color: $gradient-start;
+            min-width: 120px;
 
             &:hover {
               background: rgba(56, 189, 248, 0.1);
@@ -801,7 +813,6 @@ $accent-hover: rgba(56, 189, 248, 0.2);
 
 
 
-
 // Seção Contato
 .contact {
   max-width: 1200px;
@@ -882,8 +893,25 @@ $accent-hover: rgba(56, 189, 248, 0.2);
         }
 
         .contact-icon {
-          font-size: 3rem;
           margin-bottom: 1rem;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+
+          .icon-img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            transition: all 0.3s ease;
+            border-radius: 15px;
+            // REMOVI O filter: brightness(0) invert(1);
+          }
+        }
+
+        &:hover .contact-icon .icon-img {
+          transform: scale(1.1);
+          // REMOVI O filter também
         }
 
         h3 {
@@ -1006,8 +1034,9 @@ $accent-hover: rgba(56, 189, 248, 0.2);
         .contact-card {
           padding: 1.5rem;
 
-          .contact-icon {
-            font-size: 2.5rem;
+          .contact-icon .icon-img {
+            width: 50px;
+            height: 50px;
           }
 
           h3 {
@@ -1027,4 +1056,17 @@ $accent-hover: rgba(56, 189, 248, 0.2);
       }
     }
   }
+}
+
+
+.linha {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  margin-top: 100px;
+  /* Use 1px e controle a "finura" pela opacidade, é mais seguro para navegadores */
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #38bdf8, #22c55e, transparent);
+  opacity: 0.4;
+  z-index: 1001;
 }
