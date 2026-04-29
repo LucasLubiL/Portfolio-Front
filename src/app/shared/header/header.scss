@@ -2,21 +2,17 @@
   position: fixed;
   top: 0;
   width: 100%;
-  height: 80px;
+  height: 70px;
   z-index: 1000;
-  position: relative;
-
   background: rgba(10, 10, 10, 0.95);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  overflow: hidden;
 
   .container {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 2rem;
-    max-height: 80px;
-
+    padding: 0 2rem;
+    height: 70px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -24,40 +20,131 @@
 
   .logo {
     font-weight: bold;
-    font-size: 20px;
+    font-size: 1.2rem;
     color: #fff;
+    z-index: 1001;
+
+    span {
+      color: #4ecdc4;
+    }
   }
 
-  .logo span {
-    color: #4ecdc4;
+  // Botão menu mobile
+  .menu-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+
+    span {
+      width: 100%;
+      height: 2px;
+      background: #fff;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+    }
+
+    &.active {
+      span:first-child {
+        transform: translateY(9px) rotate(45deg);
+      }
+      span:nth-child(2) {
+        opacity: 0;
+      }
+      span:last-child {
+        transform: translateY(-9px) rotate(-45deg);
+      }
+    }
   }
 
   .nav {
     display: flex;
     gap: 2rem;
+    transition: all 0.3s ease;
 
     a {
       text-decoration: none;
       color: #cbd5f5;
-      font-size: 1.2rem;
+      font-size: 1rem;
       transition: 0.3s;
+      cursor: pointer;
 
       &:hover {
         color: #38bdf8;
       }
     }
   }
+
+  // Linha gradiente embaixo
+  &::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #38bdf8, #22c55e, transparent);
+    opacity: 0.4;
+  }
 }
 
-.header::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  /* Use 1px e controle a "finura" pela opacidade, é mais seguro para navegadores */
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #38bdf8, #22c55e, transparent);
-  opacity: 0.4;
-  z-index: 1001;
+// Responsividade
+@media (max-width: 768px) {
+  .header {
+    height: 60px;
+
+    .container {
+      padding: 0 1.5rem;
+      height: 60px;
+    }
+
+    .logo {
+      font-size: 1rem;
+    }
+
+    .menu-toggle {
+      display: flex;
+    }
+
+    .nav {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 70%;
+      height: 100vh;
+      background: rgba(10, 10, 10, 0.98);
+      backdrop-filter: blur(10px);
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      transition: right 0.3s ease;
+      z-index: 1000;
+
+      &.open {
+        right: 0;
+      }
+
+      a {
+        font-size: 1.2rem;
+        padding: 0.5rem;
+      }
+    }
+  }
+}
+
+// Para telas muito pequenas
+@media (max-width: 480px) {
+  .header {
+    .nav {
+      width: 100%;
+      right: -100%;
+    }
+  }
 }

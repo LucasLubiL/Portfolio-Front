@@ -4,11 +4,17 @@
       &lt;Lucas<span>Dev</span>/&gt;
     </div>
 
-    <nav class="nav">
-      <a href="#">Home</a>
-      <a href="#sobre">Quem sou</a>
-      <a href="#projetos">Projetos</a>
-      <a href="#contato">Contato</a>
+    <button class="menu-toggle" (click)="toggleMenu()" [class.active]="menuOpen">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <nav class="nav" [class.open]="menuOpen">
+      <a href="#" (click)="closeMenu()">Home</a>
+      <a href="#sobre" (click)="closeMenu()">Quem sou</a>
+      <a href="#projetos" (click)="closeMenu()">Projetos</a>
+      <a href="#contato" (click)="closeMenu()">Contato</a>
     </nav>
   </div>
 </header>
