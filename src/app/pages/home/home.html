@@ -29,7 +29,7 @@
   <section id="sobre" class="about">
     <div class="intro">
       <h2>Quem sou eu
-        <button style="font-size: 20px;" (click)="abrirEdicao()">✏️</button>
+        <button class="btn-edit-about" (click)="abrirEdicao()">✏️</button>
       </h2>
 
       <p *ngIf="dev">
@@ -54,72 +54,64 @@
 
     <div class="linha"></div>
 
-    <h3 class="tech-title">Tecnologias e Metodologias</h3>
+    <h3 class="tech-title">Tecnologias e Metodologias
+      <button class="btn-tech-admin" (click)="abrirModalTech()">
+        + Tecnologias
+      </button>
+    </h3>
+
     <div class="tech-grid">
+
+      <!-- LINGUAGENS -->
       <div class="tech-box">
         <h4>Linguagens</h4>
         <div class="chips">
-          <span class="chip">☕ Java</span>
-          <span class="chip">🟨 JavaScript</span>
-          <span class="chip">🔷 TypeScript</span>
-          <span class="chip">🐍 Python</span>
-          <span class="chip">🅺 Kotlin</span>
-          <span class="chip">⚙️ C</span>
-          <span class="chip">⚙️ C++</span>
+      <span class="chip" *ngFor="let tech of linguagens">
+        {{ tech.nome }}
+      </span>
         </div>
       </div>
+
+      <!-- BACKEND -->
       <div class="tech-box">
         <h4>Backend + Frameworks</h4>
         <div class="chips">
-          <span class="chip">🍃 Spring Boot</span>
-          <span class="chip">🌐 Spring MVC</span>
-          <span class="chip">🔒 Spring Security</span>
-          <span class="chip">🗃️ Spring Data JPA</span>
-          <span class="chip">🔄 Hibernate</span>
-          <span class="chip">🔗 API REST</span>
-          <span class="chip">🟩 Node.js</span>
-          <span class="chip">⚡ Express.js</span>
+      <span class="chip" *ngFor="let tech of backend">
+        {{ tech.nome }}
+      </span>
         </div>
       </div>
+
+      <!-- FRONTEND -->
       <div class="tech-box">
         <h4>Frontend + Frameworks</h4>
         <div class="chips">
-          <span class="chip">🅰️ Angular</span>
-          <span class="chip">🖥️ HTML</span>
-          <span class="chip">🎨 CSS</span>
-          <span class="chip">🎨 SCSS</span>
-          <span class="chip">🧩 Bootstrap</span>
-          <span class="chip">🧱 PrimeNG</span>
-          <span class="chip">🌿 Thymeleaf</span>
+      <span class="chip" *ngFor="let tech of frontend">
+        {{ tech.nome }}
+      </span>
         </div>
       </div>
+
+      <!-- BANCO -->
       <div class="tech-box">
         <h4>Bancos de Dados</h4>
         <div class="chips">
-          <span class="chip">🗄️ SQL</span>
-          <span class="chip">🐬 MySQL</span>
-          <span class="chip">🐘 PostgreSQL</span>
-          <span class="chip">🌱 MongoDB</span>
+      <span class="chip" *ngFor="let tech of banco">
+        {{ tech.nome }}
+      </span>
         </div>
       </div>
+
+      <!-- OUTROS -->
       <div class="tech-box">
         <h4>Outros</h4>
         <div class="chips">
-          <span class="chip">🐙 Git</span>
-          <span class="chip">🐱 GitHub</span>
-          <span class="chip">🐋 Docker</span>
-          <span class="chip">📚 POO (Programação Orientada a Objetos)</span>
-          <span class="chip">🧩 Estrutura de Dados</span>
-          <span class="chip">🌐 Sistemas Distribuídos</span>
-          <span class="chip">🚀 Scrum</span>
-          <span class="chip">📖 Maven</span>
-          <span class="chip">📬 Postman</span>
-          <span class="chip">🧪 JUnit</span>
-          <span class="chip">♻️ Nodemon</span>
-          <span class="chip">📶 Power BI</span>
-          <span class="chip">🧠 Knime</span>
+      <span class="chip" *ngFor="let tech of outros">
+        {{ tech.nome }}
+      </span>
         </div>
       </div>
+
     </div>
     <div class="linha"></div>
   </section>
@@ -189,82 +181,73 @@
       </div>
     </div>
 
-    <!-- Outros Projetos -->
+    <!-- ================= PROJECTS ================= -->
+
+    <button class="btn btn-primary mb-3"
+            (click)="abrirModalNovoProject()">
+      + Novo Projeto
+    </button>
+
     <div class="projects-grid">
-      <div class="project-card">
+
+      <div class="project-card" *ngFor="let p of projects || []">
+
+        <!-- MENU 3 PONTOS -->
+        <div class="project-menu">
+
+          <button class="menu-btn"
+                  type="button"
+                  (click)="toggleMenu(p.id_project)">
+            ⋮
+          </button>
+
+          <div class="menu-dropdown"
+               *ngIf="menuAberto === p.id_project">
+
+            <button type="button"
+                    (click)="editarProject(p)">
+              ✏️ Editar
+            </button>
+
+            <button type="button"
+                    (click)="abrirConfirmDeleteProject(p)">
+              🗑️ Excluir
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- IMAGEM -->
         <div class="project-image-placeholder">
-          <img src="assets/image/corte.png" alt="E-commerce API" class="card-img">
+          <img [src]="p?.imageUrl ? ('http://localhost:8080' + p.imageUrl) : ''"
+               class="card-img">
         </div>
+
+        <!-- CONTEÚDO -->
         <div class="card-content">
-          <h3>📅 Agendamento Barbearia</h3>
-          <p>Plataforma de gestão para barbearia que conecta clientes, barbeiros e instituições: permite cadastro, login, agendamento, cancelamento, acompanhamento de agenda e perfis, envio de feedbacks e programa de doação de cabelo com inscrição de instituições e upload de fotos.</p>
+
+          <h3>{{ p?.titulo }}</h3>
+          <p>{{ p?.about }}</p>
+
           <div class="project-techs">
-            <span class="card-tech">☕ Java</span>
-            <span class="card-tech">🟨 JavaScript</span>
-            <span class="card-tech">🖥️ HTML</span>
-            <span class="card-tech">🎨 CSS</span>
-            <span class="card-tech">🍃 Spring Boot</span>
-            <span class="card-tech">🌐 Spring MVC</span>
-            <span class="card-tech">🗃️ Spring Data JPA</span>
-            <span class="card-tech">🔄 Hibernate</span>
-            <span class="card-tech">🔒 Spring Security</span>
-            <span class="card-tech">🌿 Thymeleaf</span>
-            <span class="card-tech">🐘 PostgreSQL</span>
-            <span class="card-tech">📖 Maven</span>
-            <span class="card-tech">🧪 JUnit</span>
+        <span class="card-tech" *ngFor="let t of p?.technologies || []">
+          {{ t.nome }}
+        </span>
           </div>
+
           <div class="project-links">
-            <a href="https://github.com/LucasLubiL/System-Barber" target="_blank" class="project-link">🐱 GitHub</a>
+            <a [href]="p?.github"
+               target="_blank"
+               class="project-link">
+              🐱 GitHub
+            </a>
           </div>
+
         </div>
+
       </div>
 
-      <div class="project-card">
-        <div class="project-image-placeholder">
-          <img src="assets/image/gastos.png" alt="Gastos A prazo" class="card-img">
-        </div>
-        <div class="card-content">
-          <h3>📊 Gastos A Prazo</h3>
-          <p>Sistema para previsão de gastos a prazo usando modelos polinomiais. O usuário informa ano, grau e tipo de polinômio, e o sistema calcula a previsão financeira baseada em dados normalizados no Power BI e processados pelo Knime. Focado na análise de gastos da cidade de Patrocínio-MG.</p>
-          <div class="project-techs">
-            <span class="card-tech">☕ Java</span>
-            <span class="card-tech">🍃 Spring Boot</span>
-            <span class="card-tech">🖥️ HTML</span>
-            <span class="card-tech">🎨 CSS</span>
-            <span class="card-tech">🧩 Bootstrap</span>
-            <span class="card-tech">🌿 Thymeleaf</span>
-            <span class="card-tech">🧠 Knime</span>
-            <span class="card-tech">📶 Power BI</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/LucasLubiL/Value-Forecast-APrazo" target="_blank" class="project-link">🐱 GitHub</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="project-card">
-        <div class="project-image-placeholder">
-          <img src="assets/image/order.png" alt="OrderBy" class="card-img">
-        </div>
-        <div class="card-content">
-          <h3>📝 Service Order Online</h3>
-          <p>Sistema de gerenciamento de ordens de serviço com autenticação e organização para uma emrpesa com serviços para Sistema e Manutenção de Computadores, separando tarefas e responsabilidades por diferentes perfis.</p>
-          <div class="project-techs">
-            <span class="card-tech">🖥️ HTML</span>
-            <span class="card-tech">🎨 CSS</span>
-            <span class="card-tech">🟨 JavaScript</span>
-            <span class="card-tech">🔷 TypeScript</span>
-            <span class="card-tech">📦Node.js</span>
-            <span class="card-tech">♻️ Nodemon</span>
-            <span class="card-tech">⚡ Expres.js</span>
-            <span class="card-tech">🐘 PostgreSQL</span>
-            <span class="card-tech">🔗 API Rest</span>
-          </div>
-          <div class="project-links">
-            <a href="https://github.com/LucasLubiL/System-Order-ESOF3" target="_blank" class="project-link">🐱 GitHub</a>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="linha"></div>
   </section>
@@ -381,7 +364,7 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" style="color: black">Editar Sobre</h5>
+          <h5 class="modal-title">Editar Sobre</h5>
           <button type="button" class="btn-close" (click)="fecharEdicao()"></button>
         </div>
 
@@ -402,4 +385,526 @@
 </div>
 
 
+<<div class="modal fade"
+      [class.show]="mostrarModalTech"
+      [style.display]="mostrarModalTech ? 'block' : 'none'">
 
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- HEADER -->
+      <div class="modal-header">
+        <h5 class="modal-title">Tecnologias</h5>
+
+        <button type="button"
+                class="btn btn-primary"
+                (click)="abrirModalNovaTech()">
+          + Nova Tecnologia
+        </button>
+
+        <button type="button"
+                class="btn-close"
+                (click)="fecharModalTech()">
+        </button>
+      </div>
+
+      <!-- BODY -->
+      <div class="modal-body">
+
+        <table class="table table-dark table-hover">
+
+          <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Tipo</th>
+            <th>Ações</th>
+          </tr>
+          </thead>
+
+          <tbody>
+          <tr *ngFor="let tech of technologies">
+
+            <!-- NOME -->
+            <td>
+                <span *ngIf="editandoTech?.id_technology !== tech.id_technology">
+                  {{ tech.nome }}
+                </span>
+
+              <input *ngIf="editandoTech?.id_technology === tech.id_technology"
+                     [(ngModel)]="editandoTech.nome">
+            </td>
+
+            <!-- TIPO -->
+            <td>
+                <span *ngIf="editandoTech?.id_technology !== tech.id_technology">
+                  {{ tech.tipo }}
+                </span>
+
+              <select *ngIf="editandoTech?.id_technology === tech.id_technology"
+                      [(ngModel)]="editandoTech.tipo">
+
+                <option>Linguagens</option>
+                <option>Backend</option>
+                <option>Frontend</option>
+                <option>Banco de Dados</option>
+                <option>Outros</option>
+
+              </select>
+            </td>
+
+            <!-- AÇÕES -->
+            <td>
+
+              <button type="button"
+                      *ngIf="editandoTech?.id_technology !== tech.id_technology"
+                      (click)="editarTech(tech)">
+                Editar
+              </button>
+
+              <button type="button"
+                      *ngIf="editandoTech?.id_technology === tech.id_technology"
+                      (click)="salvarEdicaoTech()">
+                Salvar
+              </button>
+
+              <button type="button"
+                      (click)="abrirConfirmacaoDelete(tech)">
+                Excluir
+              </button>
+
+            </td>
+
+          </tr>
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- BACKDROP ÚNICO -->
+<div class="modal-backdrop fade show"
+     *ngIf="mostrarModalTech">
+</div>
+
+<!-- ================= NOVA TECH ================= -->
+
+<div class="modal fade"
+     [class.show]="mostrarModalNovaTech"
+     [style.display]="mostrarModalNovaTech ? 'block' : 'none'">
+
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Nova Tecnologia</h5>
+
+        <button type="button"
+                class="btn-close"
+                (click)="fecharModalNovaTech()">
+        </button>
+      </div>
+
+      <div class="modal-body">
+
+        <input class="form-control mb-2"
+               placeholder="Nome"
+               [(ngModel)]="novaTech.nome">
+
+        <select class="form-control"
+                [(ngModel)]="novaTech.tipo">
+
+          <option value="">Selecione o tipo</option>
+          <option>Linguagens</option>
+          <option>Backend</option>
+          <option>Frontend</option>
+          <option>Banco de Dados</option>
+          <option>Outros</option>
+
+        </select>
+
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button"
+                class="btn btn-secondary"
+                (click)="fecharModalNovaTech()">
+          Cancelar
+        </button>
+
+        <button type="button"
+                class="btn btn-primary"
+                (click)="adicionarTech()">
+          Salvar
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- BACKDROP NOVA TECH -->
+<div class="modal-backdrop fade show"
+     *ngIf="mostrarModalNovaTech">
+</div>
+
+<!-- ================= DELETE MODAL ================= -->
+
+<div class="modal fade"
+     [class.show]="mostrarModalConfirmDelete"
+     [style.display]="mostrarModalConfirmDelete ? 'block' : 'none'">
+
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmar exclusão</h5>
+
+        <button type="button"
+                class="btn-close"
+                (click)="cancelarDelete()">
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p>
+          Tem certeza que deseja excluir a tecnologia
+          <strong>{{ techParaDeletar?.nome }}</strong>?
+        </p>
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button"
+                class="btn btn-secondary"
+                (click)="cancelarDelete()">
+          Cancelar
+        </button>
+
+        <button type="button"
+                class="btn btn-danger"
+                (click)="confirmarDelete()">
+          Excluir
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- BACKDROP DELETE -->
+<div class="modal-backdrop fade show"
+     *ngIf="mostrarModalConfirmDelete">
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ================= MODAL EDIT PROJECT ================= -->
+
+<div class="modal fade"
+     [class.show]="mostrarModalEditProject"
+     [style.display]="mostrarModalEditProject ? 'block' : 'none'">
+
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- HEADER -->
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Projeto</h5>
+
+        <button type="button"
+                class="btn-close"
+                (click)="fecharModalEditProject()">
+        </button>
+      </div>
+
+      <!-- BODY -->
+      <div class="modal-body">
+
+        <!-- IMAGEM -->
+        <label>Imagem atual</label>
+        <img *ngIf="editProject?.imageUrl"
+             [src]="'http://localhost:8080' + editProject.imageUrl"
+             class="img-fluid mb-2"/>
+
+        <input type="file"
+               class="form-control mb-3"
+               (change)="onImageChange($event)">
+
+        <!-- TÍTULO -->
+        <input class="form-control mb-2"
+               placeholder="Título"
+               [(ngModel)]="editProject.titulo">
+
+        <!-- ABOUT -->
+        <textarea class="form-control mb-2"
+                  rows="4"
+                  placeholder="Descrição"
+                  [(ngModel)]="editProject.about">
+        </textarea>
+
+        <!-- GITHUB -->
+        <input class="form-control mb-3"
+               placeholder="GitHub"
+               [(ngModel)]="editProject.github">
+
+        <!-- TECNOLOGIAS DISPONÍVEIS -->
+        <label>Adicionar tecnologia</label>
+
+        <select class="form-control mb-3"
+                (change)="adicionarTechNoProjeto($event)">
+
+          <option value="">Selecione...</option>
+
+          <option *ngFor="let t of allTechnologies"
+                  [value]="t.id_technology">
+            {{ t.nome }}
+          </option>
+
+        </select>
+
+        <!-- TECNOLOGIAS DO PROJETO (CHIPS + REMOVER) -->
+        <label>Tecnologias do projeto</label>
+
+        <div class="project-techs mt-2">
+
+          <span class="card-tech"
+                *ngFor="let id of editProjectTechIds">
+
+            {{ getTechName(id) }}
+
+            <button type="button"
+                    class="btn-remove-tech"
+                    (click)="removerTechDoProjeto(id)">
+              ✕
+            </button>
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- FOOTER -->
+      <div class="modal-footer">
+
+        <button class="btn btn-secondary"
+                (click)="fecharModalEditProject()">
+          Cancelar
+        </button>
+
+        <button class="btn btn-primary" type="button"
+                (click)="salvarProjectEdit()">
+          Salvar
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- BACKDROP -->
+<div class="modal-backdrop fade show"
+     *ngIf="mostrarModalEditProject">
+</div>
+
+<!-- ================= MODAL DELETE PROJECT ================= -->
+
+<div class="modal fade"
+     [class.show]="projectParaDeletar"
+     [style.display]="projectParaDeletar ? 'block' : 'none'">
+
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- HEADER -->
+      <div class="modal-header">
+        <h5 class="modal-title">Excluir Projeto</h5>
+
+        <button type="button"
+                class="btn-close"
+                (click)="fecharModalDeleteProject()">
+        </button>
+      </div>
+
+      <!-- BODY -->
+      <div class="modal-body">
+
+        <p>Tem certeza que deseja excluir o projeto:</p>
+
+        <strong>
+          {{ projectParaDeletar?.titulo }}
+        </strong>
+
+      </div>
+
+      <!-- FOOTER -->
+      <div class="modal-footer">
+
+        <button class="btn btn-secondary"
+                (click)="fecharModalDeleteProject()">
+          Cancelar
+        </button>
+
+        <button type="button" class="btn btn-danger"
+                (click)="deletarProject()">
+          Excluir
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- BACKDROP -->
+<div class="modal-backdrop fade show"
+     *ngIf="projectParaDeletar">
+</div>
+
+
+<!-- ================= MODAL CREATE PROJECT ================= -->
+<div class="modal fade"
+     [class.show]="mostrarModalCreateProject"
+     [style.display]="mostrarModalCreateProject ? 'block' : 'none'">
+
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+
+      <!-- HEADER -->
+      <div class="modal-header">
+        <h5 class="modal-title">Novo Projeto</h5>
+
+        <button type="button"
+                class="btn-close"
+                (click)="fecharModalCreateProject()">
+        </button>
+      </div>
+
+      <!-- BODY -->
+      <div class="modal-body">
+
+        <!-- IMAGEM -->
+        <input type="file"
+               class="form-control mb-3"
+               (change)="onCreateImageChange($event)">
+
+        <!-- TÍTULO -->
+        <input class="form-control mb-2"
+               placeholder="Título"
+               [(ngModel)]="createProject.titulo">
+
+        <!-- ABOUT -->
+        <textarea class="form-control mb-2"
+                  rows="4"
+                  placeholder="Descrição"
+                  [(ngModel)]="createProject.about">
+        </textarea>
+
+        <!-- GITHUB -->
+        <input class="form-control mb-3"
+               placeholder="GitHub"
+               [(ngModel)]="createProject.github">
+
+        <!-- ADICIONAR TECNOLOGIA -->
+        <label>Adicionar tecnologia</label>
+
+        <select class="form-control mb-3"
+                (change)="adicionarTechNoCreate($event)">
+
+          <option value="">Selecione...</option>
+
+          <option *ngFor="let t of allTechnologies"
+                  [value]="t.id_technology">
+            {{ t.nome }}
+          </option>
+
+        </select>
+
+        <!-- TECNOLOGIAS DO PROJETO -->
+        <label>Tecnologias selecionadas</label>
+
+        <div class="project-techs mt-2">
+
+          <span class="card-tech"
+                *ngFor="let id of createProjectTechIds">
+
+            {{ getTechName(id) }}
+
+            <button type="button"
+                    class="btn-remove-tech"
+                    (click)="removerTechDoCreate(id)">
+              ✕
+            </button>
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- FOOTER -->
+      <div class="modal-footer">
+
+        <button class="btn btn-secondary"
+                (click)="fecharModalCreateProject()">
+          Cancelar
+        </button>
+
+        <button class="btn btn-primary" type="button"
+                (click)="salvarNovoProject()">
+          Criar
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- BACKDROP -->
+<div class="modal-backdrop fade show"
+     *ngIf="mostrarModalCreateProject">
+</div>
