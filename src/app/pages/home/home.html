@@ -5,7 +5,7 @@
   <!-- HOME -->
   <section id="home" class="home">
     <div class="content">
-      <h1>Olá, eu sou <span class="highlight">Lucas Amaral</span></h1>
+      <h1 *ngIf="dev">Olá, eu sou <span class="highlight">{{ dev?.name }}</span></h1>
       <p>&lt;Desenvolvedor Web Full-Stack/></p>
 
       <div class="techs">
@@ -28,11 +28,12 @@
   <!-- Seção Sobre com seu HTML -->
   <section id="sobre" class="about">
     <div class="intro">
-      <h2>Quem sou eu</h2>
-      <p>
-        Sou Lucas Amaral, tenho 23 anos e sou desenvolvedor Full Stack, atualmente graduando em Análise e Desenvolvimento de Sistemas (6º período). Tenho foco em criar soluções tecnológicas que melhoram a escalabilidade e a eficiência de sistemas.
+      <h2>Quem sou eu
+        <button style="font-size: 20px;" (click)="abrirEdicao()">✏️</button>
+      </h2>
 
-        Possuo experiência com suporte a usuários, resolução de problemas em sistemas e uso prático de SQL. Atualmente participo de um projeto de extensão acadêmico chamado Pluri, onde atuo de forma voluntária no desenvolvimento e manutenção de um sistema utilizado por docentes da instituição de ensino na qual eu frequento.
+      <p *ngIf="dev">
+        {{ dev?.about }}
       </p>
     </div>
 
@@ -366,6 +367,39 @@
   </section>
 
 
+
+
 </main>
 
+
+
 <app-footer></app-footer>
+
+<div *ngIf="editMode">
+  <div class="modal d-block fade show" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" style="color: black">Editar Sobre</h5>
+          <button type="button" class="btn-close" (click)="fecharEdicao()"></button>
+        </div>
+
+        <div class="modal-body">
+          <textarea class="form-control" rows="6" [(ngModel)]="aboutEdit"></textarea>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="fecharEdicao()">Cancelar</button>
+          <button class="btn btn-primary" (click)="salvar()">Salvar</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop fade show"></div>
+</div>
+
+
+
